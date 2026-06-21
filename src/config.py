@@ -16,6 +16,10 @@ class Settings(BaseSettings):
     groq_temperature: float = Field(default=0.3, ge=0.0, le=2.0)
 
     hf_dataset_name: str = "ManikaSaini/zomato-restaurant-recommendation"
+    hf_dataset_csv_url: str = (
+        "https://huggingface.co/datasets/ManikaSaini/zomato-restaurant-recommendation/"
+        "resolve/main/zomato.csv"
+    )
     data_cache_path: Path = Path("data/restaurants.parquet")
 
     max_candidates_for_llm: int = Field(default=20, ge=1)
