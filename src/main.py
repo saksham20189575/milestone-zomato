@@ -1,14 +1,21 @@
 """Application entry point."""
 
+import os
+
 import uvicorn
+
+from src.config import settings
 
 
 def main() -> None:
+    port = int(os.environ.get("PORT", settings.port))
+    reload = os.getenv("RAILWAY_ENVIRONMENT") is None
+
     uvicorn.run(
         "src.api.app:app",
         host="0.0.0.0",
-        port=8000,
-        reload=True,
+        port=port,
+        reload=reload,
     )
 
 

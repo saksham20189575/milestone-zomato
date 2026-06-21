@@ -25,6 +25,9 @@ class Settings(BaseSettings):
     budget_medium_max: int = Field(default=1500, ge=0)
 
     cors_origins: str = "http://localhost:3000,http://127.0.0.1:3000"
+    cors_allow_vercel_previews: bool = True
+
+    port: int = Field(default=8000, ge=1, le=65535)
 
     @field_validator("budget_medium_max")
     @classmethod
@@ -44,6 +47,12 @@ class Settings(BaseSettings):
     @property
     def cors_origin_list(self) -> list[str]:
         return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
+
+    @property
+    def cors_origin_regex(self) -> str | None:
+        if self.cors_allow_vercel_previews:
+            return r"https://.*\.vercel\.app"
+        return None
 
 
 settings = Settings()

@@ -84,13 +84,24 @@ def create_app(
         app.state.load_error = "Dataset loading skipped"
         app.state.recommendation_service = recommendation_service
 
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=settings.cors_origin_list,
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+    cors_kwargs: dict[str, Any] = {
+        "allow_origins": settings.cors_origin_list,
+        "allow_credentials": True,
+        "allow_methods": ["*"],
+        "allow_headers": ["*"],
+    }
+    if settings.cors_origin_regex:
+        cors_kwargs["allow_origin_regex"] = settings.cors_origin_regex
+
+    app.add_middleware(CORSMiddleware, **cors_kwargs)
+
+    @app.get("/")
+    def root() -> dict[str, str]:
+        return {
+            "service": "Zomato AI Restaurant Recommendations",
+            "health": "/api/v1/health",
+            "docs": "/docs",
+        }
 
     @app.exception_handler(PreferenceValidationError)
     async def preference_validation_handler(

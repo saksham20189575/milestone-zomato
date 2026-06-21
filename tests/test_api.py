@@ -274,6 +274,29 @@ def test_cors_allows_frontend_origin(test_client: TestClient):
     assert response.headers.get("access-control-allow-origin") == "http://localhost:3000"
 
 
+def test_cors_allows_vercel_preview_origin(test_client: TestClient):
+    response = test_client.options(
+        "/api/v1/health",
+        headers={
+            "Origin": "https://zomato-ai-git-feature-user.vercel.app",
+            "Access-Control-Request-Method": "GET",
+        },
+    )
+    assert response.status_code == 200
+    assert (
+        response.headers.get("access-control-allow-origin")
+        == "https://zomato-ai-git-feature-user.vercel.app"
+    )
+
+
+def test_root_returns_service_info(test_client: TestClient):
+    response = test_client.get("/")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["health"] == "/api/v1/health"
+    assert data["docs"] == "/docs"
+
+
 def test_openapi_docs_available(test_client: TestClient):
     response = test_client.get("/docs")
     assert response.status_code == 200
