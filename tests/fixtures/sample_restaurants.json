@@ -1,0 +1,112 @@
+[
+  {
+    "id": "1",
+    "name": "Italian Garden",
+    "location": "Indiranagar",
+    "cuisines": ["Italian", "Continental"],
+    "cost_for_two": 1200,
+    "rating": 4.5,
+    "votes": 500,
+    "rest_type": "Casual Dining",
+    "budget_tier": "medium"
+  },
+  {
+    "id": "2",
+    "name": "Budget Chinese",
+    "location": "Indiranagar",
+    "cuisines": ["Chinese"],
+    "cost_for_two": 400,
+    "rating": 4.0,
+    "votes": 200,
+    "rest_type": "Cafe",
+    "budget_tier": "medium"
+  },
+  {
+    "id": "3",
+    "name": "Premium Italian",
+    "location": "Bellandur",
+    "cuisines": ["Italian"],
+    "cost_for_two": 2000,
+    "rating": 4.8,
+    "votes": 1000,
+    "rest_type": "Fine Dining",
+    "budget_tier": "high"
+  },
+  {
+    "id": "4",
+    "name": "Banashankari Diner",
+    "location": "Banashankari",
+    "cuisines": ["North Indian"],
+    "cost_for_two": 800,
+    "rating": 4.2,
+    "votes": 300,
+    "rest_type": "Casual Dining",
+    "budget_tier": "medium"
+  },
+  {
+    "id": "5",
+    "name": "Spice Route",
+    "location": "Indiranagar",
+    "cuisines": ["South Indian", "Chinese"],
+    "cost_for_two": 600,
+    "rating": 4.1,
+    "votes": 150,
+    "rest_type": "Casual Dining",
+    "budget_tier": "medium"
+  },
+  {
+    "id": "6",
+    "name": "Delhi Darbar",
+    "location": "Indiranagar",
+    "cuisines": ["North Indian", "Mughlai"],
+    "cost_for_two": 900,
+    "rating": 4.3,
+    "votes": 450,
+    "rest_type": "Casual Dining",
+    "budget_tier": "medium"
+  },
+  {
+    "id": "7",
+    "name": "Quick Bites",
+    "location": "Indiranagar",
+    "cuisines": ["Fast Food"],
+    "cost_for_two": 300,
+    "rating": 3.8,
+    "votes": 80,
+    "rest_type": "Quick Bites",
+    "budget_tier": "low"
+  },
+  {
+    "id": "8",
+    "name": "Coastal Kitchen",
+    "location": "Bellandur",
+    "cuisines": ["Seafood", "Coastal"],
+    "cost_for_two": 1100,
+    "rating": 4.4,
+    "votes": 220,
+    "rest_type": "Casual Dining",
+    "budget_tier": "medium"
+  },
+  {
+    "id": "9",
+    "name": "Tandoor Express",
+    "location": "Banashankari",
+    "cuisines": ["North Indian"],
+    "cost_for_two": 450,
+    "rating": 3.9,
+    "votes": 90,
+    "rest_type": "Cafe",
+    "budget_tier": "low"
+  },
+  {
+    "id": "10",
+    "name": "La Pizzeria",
+    "location": "Indiranagar",
+    "cuisines": ["Italian", "Pizza"],
+    "cost_for_two": 1300,
+    "rating": 4.6,
+    "votes": 600,
+    "rest_type": "Casual Dining",
+    "budget_tier": "medium"
+  }
+]
