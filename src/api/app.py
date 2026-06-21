@@ -1,5 +1,6 @@
 """FastAPI application factory, lifespan, and middleware."""
 
+import asyncio
 import logging
 from contextlib import asynccontextmanager
 from typing import Any
@@ -38,6 +39,12 @@ def create_app(
     async def lifespan(app: FastAPI):
         _configure_logging()
 
+        app.state.repository = None
+        app.state.dataset_loaded = False
+        app.state.load_error = None
+        app.state.dataset_loading = False
+        app.state.recommendation_service = recommendation_service
+
         if repository is not None:
             app.state.repository = repository
             app.state.dataset_loaded = True
@@ -45,24 +52,26 @@ def create_app(
             app.state.recommendation_service = recommendation_service
             logger.info("Using injected repository with %d restaurants", len(repository))
         elif not skip_dataset_load:
-            try:
-                restaurants = load_restaurants()
-                app.state.repository = RestaurantRepository(restaurants)
-                app.state.dataset_loaded = True
-                app.state.load_error = None
-                app.state.recommendation_service = recommendation_service
-                logger.info("Loaded %d restaurants at startup", len(restaurants))
-            except Exception as exc:
-                logger.error("Failed to load restaurant dataset: %s", exc)
-                app.state.repository = None
-                app.state.dataset_loaded = False
-                app.state.load_error = str(exc)
-                app.state.recommendation_service = None
+            app.state.dataset_loading = True
+
+            async def load_dataset_in_background() -> None:
+                try:
+                    restaurants = await asyncio.to_thread(load_restaurants)
+                    app.state.repository = RestaurantRepository(restaurants)
+                    app.state.dataset_loaded = True
+                    app.state.load_error = None
+                    logger.info("Loaded %d restaurants at startup", len(restaurants))
+                except Exception as exc:
+                    logger.error("Failed to load restaurant dataset: %s", exc)
+                    app.state.repository = None
+                    app.state.dataset_loaded = False
+                    app.state.load_error = str(exc)
+                finally:
+                    app.state.dataset_loading = False
+
+            asyncio.create_task(load_dataset_in_background())
         else:
-            app.state.repository = None
-            app.state.dataset_loaded = False
             app.state.load_error = "Dataset loading skipped"
-            app.state.recommendation_service = recommendation_service
 
         yield
 

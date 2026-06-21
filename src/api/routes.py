@@ -29,6 +29,14 @@ router = APIRouter(prefix="/api/v1")
 
 @router.get("/health", response_model=HealthResponse)
 def health(request: Request) -> HealthResponse:
+    if getattr(request.app.state, "dataset_loading", False):
+        return HealthResponse(
+            status="starting",
+            dataset_loaded=False,
+            restaurant_count=0,
+            message="Loading restaurant dataset",
+        )
+
     dataset_loaded = getattr(request.app.state, "dataset_loaded", False)
     if not dataset_loaded:
         return HealthResponse(

@@ -41,7 +41,7 @@ class RecommendResponse(BaseModel):
 
 
 class HealthResponse(BaseModel):
-    status: Literal["ok", "degraded"]
+    status: Literal["ok", "degraded", "starting"]
     dataset_loaded: bool
     restaurant_count: int = 0
     message: str | None = None

@@ -9,6 +9,12 @@ from src.services.recommendation import RecommendationService
 
 
 def get_repository(request: Request) -> RestaurantRepository:
+    if getattr(request.app.state, "dataset_loading", False):
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Restaurant dataset is still loading. Please retry shortly.",
+        )
+
     if not getattr(request.app.state, "dataset_loaded", False):
         load_error = getattr(request.app.state, "load_error", None)
         detail = load_error or "Restaurant dataset is not available"
